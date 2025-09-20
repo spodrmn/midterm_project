@@ -38,17 +38,17 @@ if __name__ == '__main__':
             for j in range(len(keylist)):
                 if key == keylist[j]:
                     stringlist[j].pluck()
-                    sample = sample + stringlist[j].sample()
-
+                    
             
         # compute the superposition of samples
-        # sample = string_A.sample() + string_C.sample()
+
+        sample = sum(string.sample() for string in stringlist)
 
         # play the sample on standard audio
+
         play_sample(sample)
-
-        
-
-
+    
         # advance the simulation of each guitar string by one step
 
+        for string in stringlist: 
+            string.tick()
