@@ -14,6 +14,9 @@ class GuitarString:
         self.buffer =   RingBuffer(self.capacity)
         self.tcount = 0
 
+        for x in range(self.capacity):
+            self.buffer.enqueue(0)
+
     @classmethod
     def make_from_array(cls, init: list[int]):
         '''
@@ -27,13 +30,15 @@ class GuitarString:
         for x in init:
             stg.buffer.enqueue(x)
         return stg
+    
 
     def pluck(self):
         '''
         Set the buffer to white noise
         '''
-        for i in self.buffer.size()-1:
-            self.buffer[i] = random.uniform(-0.5,0.5)
+        for i in range(self.buffer.size()):
+            self.buffer.dequeue()
+            self.buffer.enqueue(random.uniform(-0.5,0.5))
 
     def tick(self):
         '''
