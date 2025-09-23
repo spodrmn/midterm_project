@@ -53,7 +53,7 @@ class RingBuffer:
         
         else: 
             temp = self.buffer[self._front]
-            self.buffer[self._front] = None
+            self.buffer[self._front] = 0
             self._front = (self._front+1) % self.MAX_CAP
             self._size -=1
             return temp

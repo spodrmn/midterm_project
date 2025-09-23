@@ -42,7 +42,8 @@ if __name__ == '__main__':
             
         # compute the superposition of samples
 
-        sample = sum(string.sample() for string in stringlist)
+        sample = sum(string.sample() for string in stringlist if string.active())
+        
 
         # play the sample on standard audio
 
@@ -50,5 +51,6 @@ if __name__ == '__main__':
     
         # advance the simulation of each guitar string by one step
 
-        for string in stringlist: 
-            string.tick()
+        for string in stringlist:
+            if string.active():
+                string.tick()
