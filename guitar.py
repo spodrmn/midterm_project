@@ -25,9 +25,8 @@ if __name__ == '__main__':
 
     n_iters = 0
     while True:
-        # it turns out that the bottleneck is in polling for key events
-        # for every iteration, so we'll do it less often, say every 
-        # 1000 or so iterations
+        # polling for key events every 1000 iterations
+
         if n_iters == 1000:
             stdkeys.poll()
             n_iters = 0
@@ -42,16 +41,19 @@ if __name__ == '__main__':
             for j in range(len(keylist)):
                 if key == keylist[j] and key in keylist:
                     stringlist[j].pluck()
-                
+        
+        # check for active strings        
         active_strings = [s for s in stringlist if s.active()]
 
+        # only add the 6 most recently played strings
         if len(active_strings) > 6:
             active_strings = active_strings[-6:]
 
-        # compute the superposition of samples
+        # compute the superposition of samples; if in active_strings
 
         sample = sum(string.sample() for string in active_strings)
-        
+
+        # ensure the value of sample doesn't exceed 1.0 and doesn't go below -1.0
         if sample > 1.0:
             sample = 1.0
 
@@ -62,7 +64,7 @@ if __name__ == '__main__':
 
         play_sample(sample)
     
-        # advance the simulation of each guitar string by one step
+        # advance the simulation of each active guitar string by one step
 
         for string in active_strings:
             string.tick()
