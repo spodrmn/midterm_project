@@ -11,8 +11,10 @@ if __name__ == '__main__':
     keylist = list(r'q2we4r5ty7u8i9op-[=]')
     stringlist = []
 
+
     for i in range(20):
         stringlist.append(GuitarString(440*1.059463**(i-12)))
+
         
 
     CONCERT_A = 440
@@ -35,15 +37,25 @@ if __name__ == '__main__':
         # check if the user has typed a key; if so, process it
         if stdkeys.has_next_key_typed():
             key = stdkeys.next_key_typed()
+
+           # if key in keylist and key not in active_keys:
+           #     stringlist[keylist.index(key)].pluck()
+           #     active_keys.add(key)
+
             for j in range(len(keylist)):
                 if key == keylist[j]:
                     stringlist[j].pluck()
                     
-            
+
         # compute the superposition of samples
 
         sample = sum(string.sample() for string in stringlist if string.active())
         
+        if sample > 1.0:
+            sample = 1.0
+
+        elif sample <-1.0:
+            sample = -1.0
 
         # play the sample on standard audio
 
