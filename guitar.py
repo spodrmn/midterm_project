@@ -4,6 +4,7 @@ from guitarstring import GuitarString
 from stdaudio import play_sample
 import stdkeys
 
+
 if __name__ == '__main__':
     # initialize window
     stdkeys.create_window()
@@ -38,18 +39,18 @@ if __name__ == '__main__':
         if stdkeys.has_next_key_typed():
             key = stdkeys.next_key_typed()
 
-           # if key in keylist and key not in active_keys:
-           #     stringlist[keylist.index(key)].pluck()
-           #     active_keys.add(key)
-
             for j in range(len(keylist)):
-                if key == keylist[j]:
+                if key == keylist[j] and key in keylist:
                     stringlist[j].pluck()
-                    
+                
+        active_strings = [s for s in stringlist if s.active()]
+
+        if len(active_strings) > 6:
+            active_strings = active_strings[-6:]
 
         # compute the superposition of samples
 
-        sample = sum(string.sample() for string in stringlist if string.active())
+        sample = sum(string.sample() for string in active_strings)
         
         if sample > 1.0:
             sample = 1.0
@@ -63,6 +64,6 @@ if __name__ == '__main__':
     
         # advance the simulation of each guitar string by one step
 
-        for string in stringlist:
-            if string.active():
-                string.tick()
+        for string in active_strings:
+            string.tick()
+
