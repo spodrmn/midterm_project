@@ -39,7 +39,7 @@ if __name__ == '__main__':
             key = stdkeys.next_key_typed()
 
             for j in range(len(keylist)):
-                if key == keylist[j] and key in keylist:
+                if key == keylist[j]:
                     stringlist[j].pluck()
         
         # check for active strings        
